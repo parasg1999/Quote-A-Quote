@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
             "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1";
     private TextView quoteView;
     private TextView authorView;
+    private ImageView shareButton;
     private String currentQuote, currentAuthor;
 
 
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         quoteView = findViewById(R.id.quote_text_view);
         authorView = findViewById(R.id.author_text_view);
 
-        Button shareButton = findViewById(R.id.share_button);
+        shareButton = findViewById(R.id.share_button);
         Button newQuoteButton = findViewById(R.id.new_quote_button);
         newQuoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,9 +132,12 @@ public class MainActivity extends AppCompatActivity {
             JSONArray baseRespose = new JSONArray(s);
             JSONObject quoteObject = baseRespose.getJSONObject(0);
             currentAuthor = quoteObject.getString("title");
-            currentQuote = quoteObject.getString("content").replace("<p>", "").replace("</p>", "").replace("<br />", "");
-            authorView.setText(currentAuthor);
+            currentQuote = quoteObject.getString("content").replace("<p>", "").replace("</p>", "").replace("<br />", "").replace("&#8217;", "'").replace("&#8211;", "–").replace("&#038;", "&").replace("&#8220;", "“").replace("&#8221;", "”").replace("&#8216;", "‘");
             quoteView.setText(currentQuote);
+            authorView.setText("- " + currentAuthor);
+            if (shareButton.getVisibility() != View.VISIBLE) {
+                shareButton.setVisibility(View.VISIBLE);
+            }
 
         }
     }

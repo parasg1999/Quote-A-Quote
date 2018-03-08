@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_margin="16dp"
     tools:context="com.parasg1999.www.quoteaquote.MainActivity">
 
     <TextView
         android:id="@+id/quote_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text=">A graphic designer is a machine that turns coffee into beautiful, functional imagery." />
+        android:fontFamily="casual"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        tools:text="A graphic designer is a machine that turns coffee into beautiful, functional imagery." />
 
     <TextView
         android:id="@+id/author_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Lisa Manson"/>
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/quote_text_view"
+        android:textSize="16sp"
+        tools:text="- Lisa Manson" />
 
-    <Button
+    <ImageView
         android:id="@+id/share_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Share" />\
-
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/holo_blue_light"
+        android:src="@drawable/ic_share_white_36dp"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/new_quote_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:text="New Quote"/>
 
-</LinearLayout>
+</RelativeLayout>
