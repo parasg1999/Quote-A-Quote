@@ -1,5 +1,6 @@
 package com.parasg1999.www.quoteaquote;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
             "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1";
     private TextView quoteView;
     private TextView authorView;
+    private String currentQuote, currentAuthor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         quoteView = findViewById(R.id.quote_text_view);
         authorView = findViewById(R.id.author_text_view);
 
+        Button shareButton = findViewById(R.id.share_button);
         Button newQuoteButton = findViewById(R.id.new_quote_button);
         newQuoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +47,21 @@ public class MainActivity extends AppCompatActivity {
                 new QuoteTask().execute(QUOTE_REQUEST_URL);
             }
         });
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentAuthor != null) {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_TEXT, currentQuote + "\n-" + currentAuthor);
+                    intent.setType("text/plain");
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+
     }
 
     public class QuoteTask extends AsyncTask<String, String, String> {
@@ -110,10 +129,10 @@ public class MainActivity extends AppCompatActivity {
         private void extractFromJson(String s) throws JSONException {
             JSONArray baseRespose = new JSONArray(s);
             JSONObject quoteObject = baseRespose.getJSONObject(0);
-            String title = quoteObject.getString("title");
-            String content = quoteObject.getString("content").replace("<p>","").replace("</p>","");
-            authorView.setText(title);
-            quoteView.setText(content);
+            currentAuthor = quoteObject.getString("title");
+            currentQuote = quoteObject.getString("content").replace("<p>", "").replace("</p>", "").replace("<br />", "");
+            authorView.setText(currentAuthor);
+            quoteView.setText(currentQuote);
 
         }
     }
