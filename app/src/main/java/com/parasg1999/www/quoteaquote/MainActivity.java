@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         authorView = findViewById(R.id.author_text_view);
 
         shareButton = findViewById(R.id.share_button);
-        Button newQuoteButton = findViewById(R.id.new_quote_button);
+        ImageView newQuoteButton = findViewById(R.id.new_quote_button);
         newQuoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
