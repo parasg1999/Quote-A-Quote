@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -26,25 +27,31 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String QUOTE_REQUEST_URL =
             "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1";
+    ProgressBar progressBar;
     private TextView quoteView;
     private TextView authorView;
-    private ImageView shareButton;
+    private ImageView shareButton, newQuoteButton;
     private String currentQuote, currentAuthor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        progressBar = findViewById(R.id.progress_bar);
         quoteView = findViewById(R.id.quote_text_view);
         authorView = findViewById(R.id.author_text_view);
 
         shareButton = findViewById(R.id.share_button);
-        ImageView newQuoteButton = findViewById(R.id.new_quote_button);
+        newQuoteButton = findViewById(R.id.new_quote_button);
         newQuoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                authorView.setVisibility(View.GONE);
+                quoteView.setVisibility(View.GONE);
+                shareButton.setVisibility(View.GONE);
+                newQuoteButton.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 new QuoteTask().execute(QUOTE_REQUEST_URL);
             }
         });
@@ -134,9 +141,13 @@ public class MainActivity extends AppCompatActivity {
             currentQuote = quoteObject.getString("content").replace("<p>", "").replace("</p>", "").replace("<br />", "").replace("&#8217;", "'").replace("&#8211;", "–").replace("&#038;", "&").replace("&#8220;", "“").replace("&#8221;", "”").replace("&#8216;", "‘");
             quoteView.setText(currentQuote);
             authorView.setText("- " + currentAuthor);
+            progressBar.setVisibility(View.GONE);
             if (shareButton.getVisibility() != View.VISIBLE) {
                 shareButton.setVisibility(View.VISIBLE);
             }
+            quoteView.setVisibility(View.VISIBLE);
+            authorView.setVisibility(View.VISIBLE);
+            newQuoteButton.setVisibility(View.VISIBLE);
 
         }
     }
