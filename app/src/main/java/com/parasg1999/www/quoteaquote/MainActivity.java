@@ -1,8 +1,8 @@
 package com.parasg1999.www.quoteaquote;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,31 +23,26 @@ import java.nio.charset.Charset;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView quoteView;
-    TextView authorView;
-
     private static final String QUOTE_REQUEST_URL =
             "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1";
+    private TextView quoteView;
+    private TextView authorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        quoteView = (TextView) findViewById(R.id.quote_text_view);
-        authorView = (TextView) findViewById(R.id.author_text_view);
+        quoteView = findViewById(R.id.quote_text_view);
+        authorView = findViewById(R.id.author_text_view);
 
-        Button newQuoteButton = (Button) findViewById(R.id.new_quote_button);
+        Button newQuoteButton = findViewById(R.id.new_quote_button);
         newQuoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new QuoteTask().execute(QUOTE_REQUEST_URL);
             }
         });
-    }
-
-    private void newQuote() {
-
     }
 
     public class QuoteTask extends AsyncTask<String, String, String> {
@@ -77,9 +72,6 @@ public class MainActivity extends AppCompatActivity {
                     connection.disconnect();
                 }
                 if (stream != null) {
-                    // Closing the input stream could throw an IOException, which is why
-                    // the makeHttpRequest(URL url) method signature specifies than an IOException
-                    // could be thrown.
                     try {
                         stream.close();
                     } catch (IOException e) {
@@ -101,10 +93,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        /**
-         * Convert the {@link InputStream} into a String which contains the
-         * whole JSON response from the server.
-         */
         private String readFromStream(InputStream inputStream) throws IOException {
             StringBuilder output = new StringBuilder();
             if (inputStream != null) {
