@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:background="@drawable/natural_paper"
+    android:padding="16dp"
     tools:context="com.parasg1999.www.quoteaquote.MainActivity">
 
     <ProgressBar
@@ -37,6 +38,7 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:contentDescription="share_button"
         android:src="@drawable/ic_share_black_48dp"
         android:visibility="invisible" />
 
@@ -46,6 +48,7 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:contentDescription="next_button"
         android:src="@drawable/ic_navigate_next_black_48dp" />
 
 </RelativeLayout>
