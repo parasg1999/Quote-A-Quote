@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     private TextView quoteView;
     private TextView authorView;
-    private ImageView shareButton, newQuoteButton;
+    private ImageView shareButton, newQuoteButton, getStartedButton;
     private String currentQuote, currentAuthor;
 
     @Override
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         quoteView = findViewById(R.id.quote_text_view);
         authorView = findViewById(R.id.author_text_view);
 
+        getStartedButton = findViewById(R.id.get_started_button);
         shareButton = findViewById(R.id.share_button);
         newQuoteButton = findViewById(R.id.new_quote_button);
         newQuoteButton.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
                 quoteView.setVisibility(View.GONE);
                 shareButton.setVisibility(View.GONE);
                 newQuoteButton.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                new QuoteTask().execute(QUOTE_REQUEST_URL);
+            }
+        });
+
+        getStartedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getStartedButton.setVisibility(View.INVISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
                 new QuoteTask().execute(QUOTE_REQUEST_URL);
             }
@@ -138,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             JSONArray baseRespose = new JSONArray(s);
             JSONObject quoteObject = baseRespose.getJSONObject(0);
             currentAuthor = quoteObject.getString("title");
-            currentQuote = quoteObject.getString("content").replace("<p>", "").replace("</p>", "").replace("<br />", "").replace("&#8217;", "'").replace("&#8211;", "–").replace("&#038;", "&").replace("&#8220;", "“").replace("&#8221;", "”").replace("&#8216;", "‘");
+            currentQuote = quoteObject.getString("content").replace("<p>", "").replace("</p>", "").replace("<br />", "").replace("&#8217;", "'").replace("&#8211;", "–").replace("&#038;", "&").replace("&#8220;", "“").replace("&#8221;", "”").replace("&#8216;", "‘").replace("<em>", "").replace("</em>", "");
             quoteView.setText(currentQuote);
             authorView.setText("- " + currentAuthor);
             progressBar.setVisibility(View.GONE);
